@@ -15,16 +15,6 @@
       background: #f0f0f0;
       font-family: sans-serif;
     }
-    #spinner {
-      width: 150px;
-      height: 150px;
-      animation: spin 2s linear infinite;
-      animation-play-state: paused;
-    }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
     #result {
       font-size: 2rem;
       margin-top: 20px;
@@ -39,39 +29,29 @@
   </style>
 </head>
 <body>
-  <!-- Replace 'pirate_ship.svg' with your SVG file or path -->
-  <img id="spinner" src="file.svg" alt="Pirate Spinner">
   <button id="btn">Spin!</button>
   <div id="result"></div>
 
   <script>
     const btn = document.getElementById('btn');
-    const spinner = document.getElementById('spinner');
     const resultDiv = document.getElementById('result');
 
     btn.addEventListener('click', () => {
       resultDiv.textContent = '';
-      spinner.style.animationPlayState = 'running';
-      btn.disabled = true;
 
-      setTimeout(() => {
-        spinner.style.animationPlayState = 'paused';
-        btn.disabled = false;
+      // Generate random letter A-L and number 1-18
+      const letters = 'ABCDEFGHIJKL';
+      const letter = letters[Math.floor(Math.random() * letters.length)];
+      const number = Math.floor(Math.random() * 18) + 1;
+      const result = `${letter}-${number}`;
 
-        // Generate random letter A-L and number 1-18
-        const letters = 'ABCDEFGHIJKL';
-        const letter = letters[Math.floor(Math.random() * letters.length)];
-        const number = Math.floor(Math.random() * 18) + 1;
-        const result = `${letter}-${number}`;
+      resultDiv.textContent = result;
 
-        resultDiv.textContent = result;
-
-        // Text-to-speech announcement
-        if ('speechSynthesis' in window) {
-          const utter = new SpeechSynthesisUtterance(`The result is ${result}`);
-          speechSynthesis.speak(utter);
-        }
-      }, 2000); // 2-second spin duration
+      // Text-to-speech announcement
+      if ('speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance(`${result}`);
+        speechSynthesis.speak(utter);
+      }
     });
   </script>
 </body>
